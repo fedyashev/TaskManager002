@@ -1,0 +1,30 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "bcryptjs": "*",
+    "body-parser": "*",
+    "bootstrap": "^4.0.0",
+    "connect-flash": "*",
+    "connect-mongo": "*",
+    "cookie-parser": "*",
+    "express": "*",
+    "express-handlebars": "^3.0.0",
+    "express-messages": "*",
+    "express-session": "*",
+    "express-validator": "*",
+    "jquery": "^3.3.1",
+    "mongodb": "*",
+    "mongoose": "*",
+    "morgan": "*",
+    "passport": "*",
+    "passport-http": "*",
+    "passport-local": "*",
+    "popper.js": "^1.12.9",
+    "serve-favicon": "*"
+  }
+}
