@@ -9,10 +9,12 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var flash = require("connect-flash");
 var MongoStore = require("connect-mongo")(expressSession);
+var mongoose = require("mongoose");
 var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
 
 var credentials = require("./credentials");
+mongoose.connect(credentials.mlab.connectionString);
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -63,6 +65,7 @@ app.use(function(req, res, next) {
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
   res.locals.error = req.flash("error");
+  res.locals.user = req.user || null;
   next();
 });
 

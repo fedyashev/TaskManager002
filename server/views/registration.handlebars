@@ -1,11 +1,22 @@
 {{#if errors}}
   {{#each errors}}
-    <div class="alert alert-warning" role="alert">
-      <i class="icon-remove-sign icon-large"></i>
+    <div class="alert alert-danger" role="alert">
+      {{!-- <i class="icon-remove-sign icon-large"></i> --}}
       {{ msg }}
-      <a href="#close" class="icon-remove"></a>
+      {{!-- <a href="#close" class="icon-remove"></a> --}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
   {{/each}}
+{{/if}}
+{{#if success}}
+  <div class="alert alert-success" role="alert">
+      {{ success.msg }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>  
 {{/if}}
 <form method="post" action="/auth/register" class="form-login">
   <div class="form-group">
