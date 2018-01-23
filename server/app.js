@@ -13,12 +13,15 @@ var mongoose = require("mongoose");
 var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
 
+var middleware = require("./middleware/index");
+
 var credentials = require("./credentials");
 mongoose.connect(credentials.mlab.connectionString);
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var auth = require("./routes/auth");
+var task = require("./routes/task");
 
 var app = express();
 
@@ -72,6 +75,7 @@ app.use(function(req, res, next) {
 app.use('/', index);
 app.use('/users', users);
 app.use("/auth", auth);
+app.use("/task", middleware.ensureAuthenticated, task);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
