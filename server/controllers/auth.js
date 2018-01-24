@@ -1,4 +1,5 @@
 var User = require("../models/user");
+var Task = require("../models/task");
 
 module.exports = {
   get_login : function(req, res) {
@@ -46,6 +47,11 @@ module.exports = {
       User.createUser(newUser, function(error, user) {
         if (error) throw error;
         console.log(user);
+        Task.createRootTask(user, function(error, task) {
+          if (error) throw error;
+          console.log("Create a root task.");
+          console.log(task);
+        });
       });
       //res.render("registration", {success : { msg : "Registration success!"}});
       req.flash("success_msg", "You are registred and can now login.");

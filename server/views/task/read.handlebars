@@ -1,0 +1,16 @@
+{{#unless isRootTask}}
+    <p>Creation date: {{creationDate}}</p>
+    <p>Name: {{name}}</p>
+    <p>Description: {{description}}</p>
+    <hr>
+{{/unless}}
+{{#if childTasks.length}}
+    <ul>
+        {{#each childTasks}}
+            <li>{{creationDate}}-{{name}}</li>
+        {{/each}}
+    </ul>
+{{else}}
+    <p>Empty.</p>
+{{/if}}
+

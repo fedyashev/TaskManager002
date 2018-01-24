@@ -18,26 +18,32 @@
       </button>
     </div>  
 {{/if}}
-<form method="post" action="/auth/register" class="form-login">
-  <div class="form-group">
-    <label for="name">Name</label>
-    <input type="text" name="name" id="name" placeholder="Name" class="form-control" autofocus>
+
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form method="post" action="/auth/register">
+      <h1 class="text-center">Registration</h1>
+      <div class="form-group">
+        <label for="name" class="sr-only">Name</label>
+        <input type="text" name="name" id="name" placeholder="Name" class="form-control" autofocus>
+      </div>
+      <div class="form-group">
+        <label for="username" class="sr-only">Username</label>
+        <input type="text" name="username" id="username" placeholder="Username" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="email" class="sr-only">Email</label>
+        <input type="email" name="email" id="email" placeholder="Email" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" name="password" id="password" placeholder="Password" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="password2" class="sr-only">Confirm password</label>
+        <input type="password" name="password2" id="password2" placeholder="Confirm password" class="form-control">
+      </div>
+      <button class="btn btn-primary btn-block">Registrate</button>
+    </form>
   </div>
-  <div class="form-group">
-    <label for="username">Username</label>
-    <input type="text" name="username" id="username" placeholder="Username" class="form-control">
-  </div>
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input type="email" name="email" id="email" placeholder="Email" class="form-control">
-  </div>
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" placeholder="Password" class="form-control">
-  </div>
-  <div class="form-group">
-    <label for="password2">Confirm password</label>
-    <input type="password" name="password2" id="password2" placeholder="Confirm password" class="form-control">
-  </div>
-  <button class="btn btn-primary btn-block">Registrate</button>
-</form>
+</div>
