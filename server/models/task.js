@@ -4,7 +4,7 @@ let Schema = mongoose.Schema;
 let TaskSchema = new Schema({
     userId : { type : Schema.Types.ObjectId, ref : "User" },
     parentTask : { type : Schema.Types.ObjectId, ref : "Task", default: null},
-    childTasks : [{ type : Schema.Types.Array, ref : "Task"}],
+    childTasks : [{ type : Schema.Types.ObjectId, ref : "Task"}],
     name : {type : String, default : ""},
     description : {type : String, default : ""},
     creationDate : {type : Date, default : Date.now},
@@ -15,6 +15,10 @@ let Task = mongoose.model("Task", TaskSchema);
 
 Task.createTask = function(newTask, callback) {
     newTask.save(callback);
+};
+
+Task.saveTask = function(task, callback) {
+    task.save(callback);
 };
 
 Task.createRootTask = function(user, callback) {

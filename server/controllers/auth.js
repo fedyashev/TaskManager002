@@ -3,7 +3,7 @@ var Task = require("../models/task");
 
 module.exports = {
   get_login : function(req, res) {
-    res.render("login", {title : "Log in"});
+    res.render("login", {title : "Login"});
   },
 
   get_register : function(req, res) {
@@ -12,7 +12,7 @@ module.exports = {
 
   get_logout : function(req, res) {
     req.logout();
-    req.flash("success_msg", "You are logged out.");
+    //req.flash("success_msg", "You are logged out.");
     res.redirect("/auth/login");
   },
 
@@ -54,7 +54,7 @@ module.exports = {
         });
       });
       //res.render("registration", {success : { msg : "Registration success!"}});
-      req.flash("success_msg", "You are registred and can now login.");
+      //req.flash("success_msg", "You are registred and can now login.");
       res.redirect("/auth/login");
     }
   },

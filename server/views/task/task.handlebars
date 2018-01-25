@@ -3,25 +3,35 @@
   
     <div class="card">
       <h4 class="card-header">Task list</h4>
-      <div class="card-body" style="padding: 0.5rem;">
+      <div class="card-body bg-light" style="padding: 0.5rem;">
         <form method="post">
           <div class="input-group">
             <input type="text" class="form-control" name="name" id="name" placeholder="New task" required>
             <div class="input-group-append">
-              <button type="submit" class="btn btn-outline-secondary">Add</button>
+              <button type="submit" class="btn btn-success">Add</button>
             </div>
           </div>          
         </form>
       </div>
+      {{#if childTasks}}
+        <ul class="list-group list-group-flush">
+          {{#each childTasks}}
+            <li class="list-group-item">
+              {{name}}
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-secondary">Done</button>
+                <button type="button" class="btn btn-secondary">Fail</button>
+                <button type="button" class="btn btn-secondary">Remove</button>
+              </div>
+            </li>
+          {{/each}}
+        </ul>
+      {{/if}}
     </div>
 
-    {{#each childTasks}}
-      <div class="card">
-        <div class="card-body">
-          {{_id}}
-        </div>
-      </div>
-    {{/each}}
+
+
+
 
   </div>
 </div>

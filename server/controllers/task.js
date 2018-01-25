@@ -5,7 +5,12 @@ var url = require("url");
 module.exports.get = function(req, res) {
   Task.getRootTask(req.user, function(error, task) {
     if (error) throw error;
-    res.redirect(`task/${task._id}`);
+    if (task) {
+      res.redirect(`task/${task._id}`);
+    }
+    else {
+      res.status(404).render("errors/404", {message : "Task not found."});
+    }
   });
 };
 
@@ -14,9 +19,16 @@ module.exports.getId = function(req, res) {
   Task.getTaskById(taskId, function(error, task) {
     if (error) throw error;
     if (task && (req.user._id.toString() === task.userId.toString())) {
-      task.populate("childTasks").exec(function(error, task) {
+      Task.findOne(task).populate("childTasks").exec(function(error, task) {
+        //console.log(JSON.stringify(task));
+        task.childTasks.forEach(element => {
+          console.log(element.name);
+        });
         res.render("task/task", task);
       });
+      // task.populate("childTasks").exec(function(error, task) {
+      //   res.render("task/task", task);
+      // });
     }
     else {
       res.status(404).render("errors/404", {message : "Task not found."});  
@@ -26,17 +38,22 @@ module.exports.getId = function(req, res) {
 
 module.exports.postId = function(req, res) {
   let taskId = url.parse(req.url).path.slice(1);
-  Task.getTaskById(taskId, function(error, task) {
+  Task.getTaskById(taskId, function(error, parentTask) {
     if (error) throw error;
-    if (task && (req.user._id.toString() === task.userId.toString())) {
+    if (parentTask && (req.user._id.toString() === parentTask.userId.toString())) {
       let newTask = new Task({
         userId : req.user._id,
-        parentTask : task._id,
+        parentTask : parentTask._id,
         name : req.body.name
       });
       Task.createTask(newTask, function(error, task) {
         if (error) throw error;
-        res.redirect(`task/${task.parentTask}`);
+        parentTask.childTasks.unshift(task._id);
+        Task.saveTask(parentTask, function(error, parentTask) {
+          if (error) throw error;
+          //console.log(parentTask);
+          res.redirect(`${parentTask._id}`);
+        });
       });
     }
   });

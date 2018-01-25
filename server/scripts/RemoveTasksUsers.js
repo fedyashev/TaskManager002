@@ -1,0 +1,2 @@
+require("./TasksRemove");
+require("./UsersRemove");
