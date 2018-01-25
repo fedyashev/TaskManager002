@@ -38,4 +38,9 @@ Task.appendChildTask = function(parentTask, childTask, callback) {
     parentTask.save(callback);
 };
 
+Task.getTaskById = function(taskId, callback) {
+    let query = {_id : taskId};
+    Task.findOne(query, callback);
+};
+
 module.exports = Task;

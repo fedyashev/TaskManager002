@@ -2,6 +2,9 @@ var express = require("express");
 var router = express.Router();
 var task = require("../controllers/task");
 
+router.get("/", task.get);
+router.get("/:id", task.getId);
+
 router.get("/list", task.getList);
 
 router.get("/create", task.getCreateTask);
