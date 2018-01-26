@@ -21,6 +21,23 @@ Task.saveTask = function(task, callback) {
     task.save(callback);
 };
 
+Task.deleteTask = function(task) {
+    Task.findOne(task).populate("childTasks").exec(function(error, task) {
+        if (error) throw error;
+        task.childTasks.forEach(childTask => {
+            Task.deleteTask(childTask);
+        });
+    });
+};
+
+Task.deleteTaskById = function(id, callbask) {
+    Task.findOne({_id : id}, function(error, task) {
+        if (error) throw error;
+        Task.deleteTask(task);
+        callback();
+    });
+};
+
 Task.createRootTask = function(user, callback) {
     let task = new Task({
         userId : user._id,

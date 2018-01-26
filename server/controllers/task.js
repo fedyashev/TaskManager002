@@ -59,6 +59,14 @@ module.exports.postId = function(req, res) {
   });
 };
 
+module.exports.deleteId = function(req, res) {
+  let taskId = url.parse(req.url).path.slice(1);
+  Task.deleteTaskById(taskId, function(error, task) {
+    console.log(task);
+    res.redirect(`${task.parentTask}`);
+  });
+}
+
 module.exports.getList = function(req, res) {
   Task.getRootTask(req.user, function(error, task) {
     if (error) throw error;

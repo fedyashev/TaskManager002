@@ -19,19 +19,37 @@
             <li class="list-group-item">
               {{name}}
               <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-secondary">Done</button>
-                <button type="button" class="btn btn-secondary">Fail</button>
-                <button type="button" class="btn btn-secondary">Remove</button>
+                <button type="button" class="btn btn-secondary done" data-taskId="{{_id}}">Done</button>
+                <button type="button" class="btn btn-secondary fail" data-taskId="{{_id}}">Fail</button>
+                <button type="button" class="btn btn-secondary remove" data-taskId="{{_id}}">Remove</button>
               </div>
             </li>
           {{/each}}
         </ul>
       {{/if}}
     </div>
-
-
-
-
-
   </div>
 </div>
+
+<script>
+  
+  $("document").ready(function() {
+    let removeButtons = document.querySelectorAll(".remove");
+    removeButtons.forEach(btn => {
+      btn.addEventListener("click", deleteRequest);
+    });
+  });
+
+  function deleteRequest() {
+    let id = this.getAttribute("data-taskId");
+    if (id) {
+      $.ajax({
+        url : id,
+        type : "delete",
+        data : {},
+        success : function() {console.log(`Delete task ${id} - success.`)}
+      });
+    }
+  };
+
+</script>
