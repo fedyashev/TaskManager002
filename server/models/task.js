@@ -30,13 +30,26 @@ Task.deleteTask = function(task) {
     });
 };
 
-Task.deleteTaskById = function(id, callbask) {
-    Task.findOne({_id : id}, function(error, task) {
-        if (error) throw error;
-        Task.deleteTask(task);
-        callback();
+let c = 0;
+
+function removeTask(task) {
+    console.log(c, task.description);
+    task.populate("childTasks").remove(function(error, task) {
+        if(error) throw error;
+        task.childTasks.forEach(removeTask);
     });
+    c++;
+}
+
+Task.deleteTaskById = function(id, callback) {
+    // Task.findOne({_id : id}, function(error, task) {
+    //     if (error) throw error;
+    //     task.remove(callback);
+    // });
+    Task.remove({_id : id}, callback);
 };
+
+// http://localhost:3000/task/5a7af9e1f5517d089079474a
 
 Task.createRootTask = function(user, callback) {
     let task = new Task({
@@ -65,3 +78,6 @@ Task.getTaskById = function(taskId, callback) {
 };
 
 module.exports = Task;
+
+// let Task = mongoose.model("Task", TaskSchema);
+// module.exports = Task;
