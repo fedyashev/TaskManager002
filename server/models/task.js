@@ -11,6 +11,32 @@ let TaskSchema = new Schema({
     completedData : {type : Date, default : null}
 });
 
+TaskSchema.pre("remove", function(next) {
+    this.populate("childTasks", function(error, task) {
+        if (error) throw error;
+        task.childTasks.forEach(child => {
+            child.remove({_id : child._id}, function(error, task) {
+                if (error) throw error;
+            });
+        });
+    });
+    next();
+});
+
+TaskSchema.post("remove", function(removed) {
+    removed.populate("parentTask", function(error, task) {
+        if (error) throw error;
+        let parent = task.parentTask;
+        if (parent !== null) {
+            let index = parent.childTasks.indexOf(removed._id);
+            parent.childTasks.splice(index, 1);
+            parent.save(function(error, task) {
+                if (error) throw error;
+            });
+        }
+    });
+});
+
 let Task = mongoose.model("Task", TaskSchema);
 
 Task.createTask = function(newTask, callback) {
@@ -21,35 +47,12 @@ Task.saveTask = function(task, callback) {
     task.save(callback);
 };
 
-Task.deleteTask = function(task) {
-    Task.findOne(task).populate("childTasks").exec(function(error, task) {
-        if (error) throw error;
-        task.childTasks.forEach(childTask => {
-            Task.deleteTask(childTask);
-        });
-    });
-};
-
-let c = 0;
-
-function removeTask(task) {
-    console.log(c, task.description);
-    task.populate("childTasks").remove(function(error, task) {
-        if(error) throw error;
-        task.childTasks.forEach(removeTask);
-    });
-    c++;
-}
-
 Task.deleteTaskById = function(id, callback) {
-    // Task.findOne({_id : id}, function(error, task) {
-    //     if (error) throw error;
-    //     task.remove(callback);
-    // });
-    Task.remove({_id : id}, callback);
+    Task.findOne({_id : id}, function(error, task) {
+        if (error) throw error;
+        task.remove(callback);
+    });
 };
-
-// http://localhost:3000/task/5a7af9e1f5517d089079474a
 
 Task.createRootTask = function(user, callback) {
     let task = new Task({

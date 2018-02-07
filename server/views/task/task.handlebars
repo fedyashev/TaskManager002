@@ -16,7 +16,7 @@
       {{#if childTasks}}
         <ul class="list-group list-group-flush">
           {{#each childTasks}}
-            <li class="list-group-item">
+            <li name="task-{{_id}}" class="list-group-item">
               <a href="/task/{{_id}}">{{name}}</a>
               <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" class="btn btn-secondary done" data-taskId="{{_id}}">Done</button>
@@ -47,7 +47,11 @@
         url : id,
         type : "delete",
         data : {},
-        success : function() {console.log(`Delete task ${id} - success.`)}
+        success : function() {
+          console.log(`Delete task ${id} - success.`);
+          let li = document.getElementsByName(`task-${id}`)[0];
+          li.remove();
+        }
       });
     }
   };

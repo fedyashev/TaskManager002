@@ -63,7 +63,7 @@ module.exports.deleteId = function(req, res) {
   let taskId = url.parse(req.url).path.slice(1);
   Task.deleteTaskById(taskId, function(error, task) {
     console.log(task);
-    res.redirect(`${task.parentTask}`);
+    res.status(204).json({data: "Deleted"});
   });
 }
 
