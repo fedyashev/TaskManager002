@@ -58,12 +58,12 @@
         </form>
       </div>
     </div>
+
     {{#if childTasks}}
       <div id="accordion">
         {{#each childTasks}}
-          <br/>
-          <!-- Task -->
-          <div class="card">
+          <!-- Child task -->
+          <div class="card" id="child-task-{{_id}}">
             <!-- Task header -->
             <div class="card-header bg-light" id="accordion-header-{{_id}}">
               <p style="">
@@ -98,7 +98,7 @@
                     <a class="mr-3" title="Edit" aria-hidden="true">
                       <img class="icon-125" src="/images/pencil.svg" alt="Edit">
                     </a>
-                    <a class="action-remove mr-3" title="Remove" aria-hidden="true" data-taskId="{{_id}}">
+                    <a class="action-child-remove mr-3" title="Remove" aria-hidden="true" data-taskId="{{_id}}">
                       <img class="icon-125" src="/images/trash.svg" alt="Remove">
                     </a>
                   </div>
@@ -121,7 +121,7 @@
               {{#if childTasks}}
                 <ul class="list-group list-group-flush">
                   {{#each childTasks}}
-                    <li class="list-group-item p-2 bg-white">
+                    <li class="list-group-item p-2 bg-white" id="child-nested-task-{{_id}}">
                       <div id="carousel-{{_id}}" class="carousel slide" data-ride="carousel" data-interval="false">
                         <div class="carousel-inner">
                           <div class="carousel-item ml-4 active">
@@ -145,7 +145,7 @@
                             <a class="mr-3" title="Edit" aria-hidden="true">
                               <img class="icon-125" src="/images/pencil.svg" alt="Edit">
                             </a>
-                            <a class="action-remove mr-3" title="Remove" aria-hidden="true" data-taskId="{{_id}}">
+                            <a class="action-child-nested-remove mr-3" title="Remove" aria-hidden="true" data-taskId="{{_id}}">
                               <img class="icon-125" src="/images/trash.svg" alt="Remove">
                             </a>
                           </div>
@@ -164,64 +164,6 @@
         {{/each}}
       </div>
     {{/if}}
-<!-- 
-    <br/>
-    <div class="card">
-      {{#if parentTask}}
-      <h4 class="card-header">{{name}}</h4>
-      {{else}}
-      <h4 class="card-header">Task list</h4>
-      {{/if}}
-      <div class="card-body bg-light" style="padding: 0.5rem;">
-        <form method="post">
-          <div class="input-group">
-            <input type="text" class="form-control" name="name" id="name" placeholder="New task" required>
-            <div class="input-group-append">
-              <button type="submit" class="btn btn-success">Add</button>
-            </div>
-          </div>          
-        </form>
-      </div>
-      {{#if childTasks}}
-        <ul class="list-group list-group-flush">
-          {{#each childTasks}}
-            <li name="task-{{_id}}" class="list-group-item">
-              <a href="/task/{{_id}}">{{name}}</a>
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-secondary done" data-taskId="{{_id}}">Done</button>
-                <button type="button" class="btn btn-secondary fail" data-taskId="{{_id}}">Fail</button>
-                <button type="button" class="btn btn-secondary remove" data-taskId="{{_id}}">Remove</button>
-              </div>
-            </li>
-          {{/each}}
-        </ul>
-      {{/if}}
-    </div>
+
   </div>
-</div> -->
-
-<script>
-  
-  // window.onload = function() {
-  //   let removeButtons = document.querySelectorAll(".action-remove");
-  //   removeButtons.forEach(item => {
-  //     item.addEventListener("click", deleteRequest);
-  //   });
-  // };
-
-  // function deleteRequest() {
-  //   let id = this.getAttribute("data-taskId");
-  //   if (id) {
-  //     $.ajax({
-  //       url : id,
-  //       type : "DELETE",
-  //       success : function() {
-  //         console.log(`Delete task ${id} - success.`);
-  //         let li = document.getElementsByName(`task-${id}`)[0];
-  //         li.remove();
-  //       }
-  //     });
-  //   }
-  // };
-
-</script>
+</div>

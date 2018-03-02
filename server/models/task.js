@@ -11,7 +11,7 @@ const TaskSchema = new Schema({
     completedData : {type : Date, default : null}
 });
 
-TaskSchema.pre("remove", (next) => {
+TaskSchema.pre("remove", function(next) {
     this.populate("childTasks", function(error, task) {
         if (error) throw error;
         task.childTasks.forEach(child => {
@@ -47,7 +47,7 @@ Task.saveTask = function(task, callback) {
     task.save(callback);
 };
 
-Task.deleteTaskById = function(id, callback) {
+Task.deleteTaskById = (id, callback) => {
     Task.findOne({_id : id}, function(error, task) {
         if (error) throw error;
         task.remove(callback);
