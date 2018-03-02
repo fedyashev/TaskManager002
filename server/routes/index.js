@@ -4,6 +4,6 @@ var index = require("../controllers/index");
 var middleware = require("../middleware/index");
 
 /* GET home page. */
-router.get('/', middleware.ensureAuthenticated, index.get);
+router.get('/', middleware.ensureAuthenticated, index.getIndex);
 
 module.exports = router;

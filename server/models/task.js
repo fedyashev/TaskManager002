@@ -1,7 +1,7 @@
-let mongoose = require("mongoose");
-let Schema = mongoose.Schema;
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-let TaskSchema = new Schema({
+const TaskSchema = new Schema({
     userId : { type : Schema.Types.ObjectId, ref : "User" },
     parentTask : { type : Schema.Types.ObjectId, ref : "Task", default: null},
     childTasks : [{ type : Schema.Types.ObjectId, ref : "Task"}],
@@ -11,7 +11,7 @@ let TaskSchema = new Schema({
     completedData : {type : Date, default : null}
 });
 
-TaskSchema.pre("remove", function(next) {
+TaskSchema.pre("remove", (next) => {
     this.populate("childTasks", function(error, task) {
         if (error) throw error;
         task.childTasks.forEach(child => {

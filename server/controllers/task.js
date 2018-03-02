@@ -1,10 +1,11 @@
 var Task = require("../models/task");
 var url = require("url");
-// var Schema = require("mongoose").Schema;
 
-module.exports.get = function(req, res) {
-  Task.getRootTask(req.user, function(error, task) {
-    if (error) throw error;
+module.exports.get = (req, res, next) => {
+  Task.getRootTask(req.user, (err, task) => {
+    if (err) {
+      return next(err);
+    }
     if (task) {
       res.redirect(`task/${task._id}`);
     }
@@ -14,18 +15,31 @@ module.exports.get = function(req, res) {
   });
 };
 
-module.exports.getId = function(req, res) {
+module.exports.getId = (req, res, next) => {
   let taskId = url.parse(req.url).path.slice(1);
-  Task.getTaskById(taskId, function(error, task) {
-    if (error) throw error;
+  Task.getTaskById(taskId, (err, task) => {
+    if (err) {
+      return next(err);
+    }
     if (task && (req.user._id.toString() === task.userId.toString())) {
-      Task.findOne(task).populate("childTasks").exec(function(error, task) {
-        //console.log(JSON.stringify(task));
-        task.childTasks.forEach(element => {
-          console.log(element.name);
+      Task
+        .findOne(task)
+        .populate({
+          path: "childTasks",
+          populate: {
+            path: "childTasks"
+          }
+        })
+        .exec((err, task) => {
+          if (err) {
+            return next(err);
+          }
+          //console.log(JSON.stringify(task));
+          // task.childTasks.forEach(element => {
+          //   console.log(element.name);
+          // });
+          res.render("task/task", task);
         });
-        res.render("task/task", task);
-      });
       // task.populate("childTasks").exec(function(error, task) {
       //   res.render("task/task", task);
       // });
