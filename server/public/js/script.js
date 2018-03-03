@@ -65,8 +65,23 @@ function setStatusSuccess() {
       success: (res) => {
         console.log(res);
         let task = document.getElementById(`child-nested-task-${id}`);
-        task.setAttribute("class", "bg-success");
+        let taskClassAttr = task.getAttribute("class");
+        if (taskClassAttr) {
+          let classes = taskClassAttr.split(" ");
+          let index = classes.findIndex((value, i, obj) => value.match("bg-.*"));
+          if (index >= 0) {
+            classes[index] = "bg-success"
+          }
+          else {
+            classes.push("bg-success");
+          }
+          task.setAttribute("class", classes.join(" "));
+        }
       }
     });
   }
+};
+
+function showFailMessage(container) {
+
 }

@@ -23,7 +23,7 @@ module.exports.getId = (req, res, next) => {
     }
     if (task && (req.user._id.toString() === task.userId.toString())) {
       Task
-        .findOne(task)
+        .findOne({_id: task._id})
         .populate({
           path: "childTasks",
           populate: {
@@ -124,8 +124,21 @@ module.exports.putSetStatusActive = (req, res, next) => {
 };
 
 module.exports.putSetStatusSuccess = (req, res, next) => {
-  // TODO
-  res.status(200).json({status: "Success"});
+  if (!req.param.id) {
+    return next(new Error("Incorrect request"));
+  }
+  Task.findOne({_id: id}, (err, task) => {
+    if (err) {
+      return next(err);
+    }
+    Task.setStatus(task, "Success", (err, numbers) => {
+      if (err) {
+        return next(err);
+      }
+      console.log(numbers);
+      res.status(200).json({status: "Success"});
+    });
+  });
 };
 
 module.exports.putSetStatusFail = (req, res, next) => {
