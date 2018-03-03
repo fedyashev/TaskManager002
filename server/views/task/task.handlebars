@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
   <div class="col-12">
 
-    <div class="card">
+    <div class="card my-1">
       <div class="card-header bg-light">
         {{#if parentTask}}
           <p style="">
@@ -47,7 +47,7 @@
           Task list
         {{/if}}
       </div>
-      <div class="card-body bg-light" style="padding: 0.5rem;">
+      <div class="card-body bg-light p-2">
         <form method="post">
           <div class="input-group">
             <input type="text" class="form-control" name="name" id="name" placeholder="New task" required>
@@ -63,24 +63,21 @@
       <div id="accordion">
         {{#each childTasks}}
           <!-- Child task -->
-          <div class="card" id="child-task-{{_id}}">
+          <div class="card mb-1" id="child-task-{{_id}}">
             <!-- Task header -->
-            <div class="card-header bg-light" id="accordion-header-{{_id}}">
-              <p style="">
-                <span class="">
-                  <span>Progress <span>100%</span></span>
-                  <span>
-                    <a class="btn btn-secondary btn-sm py-0 px-1"
-                      data-toggle="collapse"
-                      href="#collapse-menu-{{_id}}"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="collapse-menu-{{_id}}">
-                      Menu
-                    </a>
-                  </span>
+            <div class="card-header bg-light p-2" id="accordion-header-{{_id}}">
+
+<!--               <p style="">
+                <span>
+                  <a class="btn btn-secondary btn-sm py-0 px-1"
+                    data-toggle="collapse"
+                    href="#collapse-menu-{{_id}}"
+                    role="button"
+                    aria-expanded="false"
+                    aria-controls="collapse-menu-{{_id}}">
+                    Menu
+                  </a>
                 </span>
-                <!-- Task header menu -->
                 <div class="collapse" id="collapse-menu-{{_id}}">
                   <div class="">
                     <a class="mx-3" title="Active" aria-hidden="true">
@@ -104,14 +101,50 @@
                   </div>
                 </div>
               </p>
-              <!-- Task text -->
-              <span data-toggle="collapse" data-target="#collapse-tasks-{{_id}}" aria-expanded="true" aria-controls="collapse-tasks-{{_id}}">{{name}}</span>
+              <span data-toggle="collapse" data-target="#collapse-tasks-{{_id}}" aria-expanded="true" aria-controls="collapse-tasks-{{_id}}">{{name}}</span> -->
+
+              <div id="carousel-{{_id}}" class="carousel slide" data-ride="carousel" data-interval="false">
+                <div class="carousel-inner">
+                  <div class="carousel-item ml-4 active">
+<!--                     <span>
+                      {{name}}
+                    </span> -->
+                    <span data-toggle="collapse" data-target="#collapse-tasks-{{_id}}" aria-expanded="true" aria-controls="collapse-tasks-{{_id}}">{{name}}</span>
+
+                  </div>
+                  <div class="carousel-item ml-4">
+                    <a class="mx-3" title="Active" aria-hidden="true">
+                      <img class="icon-125" src="/images/sun.svg" alt="Active">
+                    </a>
+                    <a class="mr-3" title="Success" aria-hidden="true">
+                      <img class="icon-125" src="/images/check.svg" alt="Success">
+                    </a>
+                    <a class="mr-3" title="Failed" aria-hidden="true">
+                      <img class="icon-125" src="/images/ban.svg" alt="Failed">
+                    </a>
+                    <a class="action-view mr-3" title="View" aria-hidden="true" href="/task/{{_id}}">
+                      <img class="icon-125" src="/images/eye.svg" alt="View">
+                    </a>
+                    <a class="mr-3" title="Edit" aria-hidden="true">
+                      <img class="icon-125" src="/images/pencil.svg" alt="Edit">
+                    </a>
+                    <a class="action-child-remove mr-3" title="Remove" aria-hidden="true" data-taskId="{{_id}}">
+                      <img class="icon-125" src="/images/trash.svg" alt="Remove">
+                    </a>
+                  </div>
+                </div>
+                <a class="carousel-control-prev carousel-control-prev-icon text-warning" href="#carousel-{{_id}}" role="button" data-slide="prev">
+                  <img class="icon-100 mr-auto mb-1" src="/images/chevron-right.svg" alt="Menu">
+                </a>
+              </div>
+
             </div>
             <div id="collapse-tasks-{{_id}}" class="collapse" aria-labelledby="accordion-header-{{_id}}" data-parent="#accordion">
-              <div class="card-body bg-light" style="padding: 0.5rem;">
+              <div class="card-body bg-light p-2">
                 <form method="post" action="/task/{{_id}}">
                   <div class="input-group">
                     <input type="text" class="form-control" name="name" id="name" placeholder="New task" required>
+                    <input type="hidden" name="currentTaskId" value={{parentTask}}>
                     <div class="input-group-append">
                       <button type="submit" class="btn btn-success">Add</button>
                     </div>

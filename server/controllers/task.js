@@ -65,7 +65,8 @@ module.exports.postId = (req, res, next) => {
             return next(err);
           }
           //console.log(parentTask);
-          res.redirect(`${parentTask._id}`);
+          //res.redirect(`${parentTask._id}`);
+          res.redirect(`${req.body.currentTaskId ? req.body.currentTaskId : parentTask._id}`);
         });
       });
     }
