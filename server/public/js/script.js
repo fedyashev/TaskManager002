@@ -16,6 +16,12 @@ window.onload = () => {
     });
   }
 
+  let childNestedSuccessActions = document.querySelectorAll(".action-child-nested-success");
+  if (childNestedSuccessActions) {
+    childNestedSuccessActions.forEach(item => {
+      item.addEventListener("click", setStatusSuccess);
+    });
+  }
 };
 
 function deleteChildNestedTask() {
@@ -48,4 +54,19 @@ function deleteTaskHandler(elementIdName) {
       });
     }
   };
+}
+
+function setStatusSuccess() {
+  let id = this.getAttribute("data-taskId");
+  if (id) {
+    $.ajax({
+      url: `${id}/setStatusSuccess`,
+      type: "PUT",
+      success: (res) => {
+        console.log(res);
+        let task = document.getElementById(`child-nested-task-${id}`);
+        task.setAttribute("class", "bg-success");
+      }
+    });
+  }
 }

@@ -8,7 +8,8 @@ const TaskSchema = new Schema({
     name : {type : String, default : ""},
     description : {type : String, default : ""},
     creationDate : {type : Date, default : Date.now},
-    completedData : {type : Date, default : null}
+    completedData : {type : Date, default : null},
+    status: {type: String, default: "Active"}
 });
 
 TaskSchema.pre("remove", function(next) {
@@ -36,6 +37,19 @@ TaskSchema.post("remove", function(removed) {
         }
     });
 });
+
+TaskSchema.static.setStatus = function(task, status, callback) {
+    if (typeof callback !== "function") {
+        throw new Error("Callback is not a function");
+    }
+    if (!status) {
+        return callback(new Error("Status value is empty, null or undefined."));
+    }
+    if (!task) {
+        return callback(new Error("Task is null or undefined."));
+    }
+    Task.update({_id: task._id}, {$set: {status: status}}, callback);
+};
 
 let Task = mongoose.model("Task", TaskSchema);
 
@@ -79,6 +93,14 @@ Task.getTaskById = function(taskId, callback) {
     let query = {_id : taskId};
     Task.findOne(query, callback);
 };
+
+// Task.method.setStatus = function(status, callback) {
+//     if (!status) {
+//         return callback(new Error("Status value is empty, null or undefined."));
+//     }
+//     this.status = status;
+//     this.save(callback);
+// }
 
 module.exports = Task;
 

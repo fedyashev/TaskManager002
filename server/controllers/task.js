@@ -82,7 +82,7 @@ module.exports.deleteId = (req, res, next) => {
     console.log(task);
     res.status(204).json({data: "Deleted"});
   });
-}
+};
 
 module.exports.getList = function(req, res) {
   Task.getRootTask(req.user, function(error, task) {
@@ -116,4 +116,19 @@ module.exports.postCreateTask = function(req, res) {
       res.redirect("/task/list");
     });
   });
+};
+
+module.exports.putSetStatusActive = (req, res, next) => {
+  // TODO
+  res.status(200).json({status: "Active"});
+};
+
+module.exports.putSetStatusSuccess = (req, res, next) => {
+  // TODO
+  res.status(200).json({status: "Success"});
+};
+
+module.exports.putSetStatusFail = (req, res, next) => {
+  // TODO
+  res.status(200).json({status: "Fail"});
 };
